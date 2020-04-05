@@ -1,0 +1,41 @@
+[System]
+Name='potential_of_player'
+Type='mamdani'
+Version=2.0
+NumInputs=2
+NumOutputs=1
+NumRules=3
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='age'
+Range=[15 23]
+NumMFs=3
+MF1='young':'gaussmf',[0.56 16.25]
+MF2='junior':'gaussmf',[0.82 19]
+MF3='youngSenior':'gaussmf',[0.81 22]
+
+[Input2]
+Name='passing'
+Range=[0 15]
+NumMFs=3
+MF1='bad':'gaussmf',[1.69 5.14]
+MF2='good':'gaussmf',[0.75 10.23]
+MF3='greate':'gaussmf',[0.64 13.36]
+
+[Output1]
+Name='potential'
+Range=[0 1]
+NumMFs=3
+MF1='low':'trimf',[-0.4 0 0.4]
+MF2='medium':'trimf',[0.1 0.5 0.9]
+MF3='high':'trimf',[0.6 1 1.4]
+
+[Rules]
+1 3, 3 (1) : 1
+3 1, 1 (1) : 1
+2 2, 2 (1) : 1
