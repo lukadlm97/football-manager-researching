@@ -19,6 +19,7 @@ attacking_players <- subset()
 
 nrow(attacking_players)
 nrow(attacking_players[attacking_players$Age<20,])
+attacking_young_players <- attacking_players[attacking_players$Age<24,]
 
 
 young_players <- attacking_players[attacking_players$Age<18,]
@@ -47,4 +48,25 @@ shapiro.test(young_players$Age)
 shapiro.test(junior_players$Age)
 shapiro.test(young_senior_players$Age)
 
-shapiro.test(attacking_players$Height)
+#Passing discovering
+shapiro.test(attacking_young_players$Passing)
+boxplot.stats(attacking_young_players$Passing)$stats
+
+down_rank <- quantile(attacking_young_players$Passing,0.25)
+down_rank
+top_rank <-quantile(attacking_young_players$Passing,0.75) 
+top_rank
+
+bad_pass <- attacking_young_players[attacking_young_players$Passing<down_rank,]
+nrow(bad_pass)
+good_pass <- attacking_young_players[attacking_young_players$Passing>down_rank&attacking_young_players$Passing<top_rank,]
+nrow(good_pass)
+greate_pass <- attacking_young_players[attacking_young_players$Passing>top_rank,]
+nrow(greate_pass)
+shapiro.test(bad_pass$Passing)
+shapiro.test(good_pass$Passing)
+shapiro.test(greate_pass$Passing)
+
+describe(bad_pass$Passing)
+describe(good_pass$Passing)
+describe(greate_pass$Passing)
