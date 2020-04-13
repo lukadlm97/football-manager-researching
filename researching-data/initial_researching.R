@@ -599,3 +599,210 @@ summary(sp)
 sort(sp$Total)
 
 sp[order(sp$Total)]
+
+#new trying
+str(sort_players)
+sort_players$league <- NULL
+full_players <- sort_players[1:25,]
+
+coefs <- data.frame()
+
+for(coef_games in seq(0.2,1.8,0.1)){
+  for(coef_goal in seq(0.2,1.8,0.1)){
+    for(coef_assist in seq(0.2,1.8,0.1)){
+      coefs <- rbind(coefs,c(coef_games,coef_assist,coef_goal))
+    }
+  }
+}
+names(coefs)<-c("games_c","assist_c","goal_c")
+
+coefs
+
+boxplot(full_players$ValueAtTransferMarket)
+boxplot.stats(full_players$ValueAtTransferMarket)$stats
+quantile(full_players$ValueAtTransferMarket,seq(0.7,1,0.025))
+max_price <- quantile(full_players$ValueAtTransferMarket,0.725)
+max_price
+full_players$ValueAtTransferMarket[full_players$ValueAtTransferMarket>max_price]<-max_price
+
+str(full_players)
+ncol(full_players)
+library(corrplot)
+
+coefs
+
+full_players
+#coefs[1]
+sms_coef <- full_players$Games*0.8+full_players$Assists*1.5+full_players$Games*1
+sms_coef
+sms_coef <- norm(sms_coef)
+sms_coef
+
+tmp <- norm(full_players$ValueAtTransferMarket)
+tmp
+
+full_players$TMG <- tmp+sms_coef
+cor.matri <- cor(full_players[,-c(1,15)])
+corrplot.mixed(cor.matri,lt.cex=0.75,number.cex=0.75)
+cor.matri[14,1:14]
+cor.matri
+
+eval_matrix <- data.frame()
+
+for(k in 1:4913){
+  sms_coef <- full_players$Games*coefs$games_c[k]+full_players$Assists*coefs$assist_c[k]+full_players$Goals*coefs$goal_c[k]
+  sms_coef
+  sms_coef <- norm(sms_coef)
+  sms_coef
+  
+  tmp <- norm(full_players$ValueAtTransferMarket)
+  tmp
+  
+  full_players$TMG <- tmp+sms_coef
+  cor.matri <- cor(full_players[,-c(1,15)])
+  eval_matrix <- rbind(eval_matrix,cor.matri[14,1:14])
+}
+nrow(eval_matrix)
+nrow(coefs)
+
+head(eval_matrix)
+c <- eval_matrix
+names(eval_matrix) <- names(full_players[,-c(1,15)])
+
+split_vars <- eval_matrix[,c(1:9)]
+split_vars
+
+split_vars$SumCorel <- rowSums(split_vars) 
+split_vars
+
+which.max(split_vars$SumCorel)
+split_vars[17,]
+
+coefs[17,]
+sort_splits$SumCorel <- rowSums(split_vars) 
+sort_splits
+
+
+
+
+sms_coef <- full_players$Games*coefs$games_c[17]+full_players$Assists*coefs$assist_c[17]+full_players$Goals*coefs$goal_c[17]
+sms_coef
+sms_coef <- norm(sms_coef)
+sms_coef
+
+tmp <- norm(full_players$ValueAtTransferMarket)
+tmp
+
+full_players$TMG <- tmp+sms_coef
+cor.matri <- cor(full_players[,-c(1,15)])
+cor.matri
+corrplot.mixed(cor.matri,lt.cex=0.75,number.cex=0.75)
+
+summary(attacking_young_players)
+nrow(attacking_young_players)
+head(attacking_young_players$Age)
+tail(attacking_young_players$Age)
+
+
+
+#Age classification
+shapiro.test(attacking_young_players$Age)
+junior_players <- quantile(attacking_young_players$Age,0.33)
+summary(junior_players)
+boxplot(junior_players)
+
+boxplot(attacking_young_players$Crossing)
+
+boxplot.stats(attacking_young_players$Crossing)$stats
+crossing.33 <- quantile(attacking_young_players$Crossing,0.33)
+crossing.33
+crossing.66 <-quantile(attacking_young_players$Crossing,0.66)
+crossing.66
+medium_corssing <- attacking_young_players$Crossing[attacking_young_players$Crossing>crossing.33&attacking_young_players$Crossing<crossing.66]
+attacking_young_players$Crossing
+attacking_young_players$Crossing[attacking_young_players$Crossing<crossing.33]
+describe(weak_corssing)
+describe(medium_corssing)
+strong_crossing <- attacking_young_players$Crossing[attacking_young_players$Crossing>crossing.66]
+describe(strong_crossing)
+
+boxplot(attacking_young_players$Acceleration)
+boxplot.stats(attacking_young_players$Acceleration)$stats
+boxplot.stats(attacking_young_players$Acceleration)$out
+quantile(attacking_young_players$Acceleration,seq(0.9,by=0.025,1))
+max_acc <- quantile(attacking_young_players$Acceleration,0.975)
+attacking_young_players$Acceleration[attacking_young_players$Acceleration>max_acc]<-max_acc
+quantile(attacking_young_players$Acceleration,seq(0,by=0.025,0.1))
+min_acc <- quantile(attacking_young_players$Acceleration,0.025)
+min_acc
+attacking_young_players$Acceleration[attacking_young_players$Acceleration<min_acc]<-min_acc
+attacking_young_players$Acceleration
+
+acc.33 <- quantile(attacking_young_players$Acceleration,0.33)
+slow_players<- attacking_young_players$Acceleration[attacking_young_players$Acceleration<acc.33]
+describe(slow_players)
+
+acc.66 <- quantile(attacking_young_players$Acceleration,0.66)
+acc.66
+acc.33
+mid_players <- attacking_young_players$Acceleration[attacking_young_players$Acceleration>acc.33-1&attacking_young_players$Acceleration<acc.66+1]
+describe(mid_players)
+
+fast_players <- attacking_young_players$Acceleration[attacking_young_players$Acceleration>acc.66]
+describe(fast_players)
+summary(slow_players)
+shapiro.test(slow_players)
+nrow(slow_players)
+slow_players
+
+
+boxplot(attacking_young_players$Dribbling)
+drib.33 <- quantile(attacking_young_players$Dribbling,0.33)
+drib.33
+bad_drib <- attacking_young_players$Dribbling[attacking_young_players$Dribbling<drib.33]
+describe(bad_drib)
+drib.66 <- quantile(attacking_young_players$Dribbling,0.66)
+drib.66
+good_drib <- attacking_young_players$Dribbling[attacking_young_players$Dribbling>drib.33-1 & attacking_young_players$Dribbling<drib.66+1]
+describe(good_drib)
+greate_drib <- attacking_young_players$Dribbling[attacking_young_players$Dribbling>drib.66]
+describe(greate_drib)
+
+
+
+boxplot(attacking_young_players$Passing)
+boxplot(attacking_young_players$Aggression)
+
+boxplot.stats(attacking_young_players$Aggression)$stats
+quantile(attacking_young_players$Aggression,seq(0.9,1,0.025))
+max_agg <- quantile(attacking_young_players$Aggression,0.925)
+attacking_young_players$Aggression[attacking_young_players$Aggression>max_agg]<-max_agg
+quantile(attacking_young_players$Aggression,seq(0,0.1,0.025))
+min_agg <- quantile(attacking_young_players$Aggression,0.1)
+min_agg
+attacking_young_players$Aggression[attacking_young_players$Aggression<min_agg]<-min_agg
+
+
+agg.33 <- quantile(attacking_young_players$Aggression,0.33)
+agg.66 <- quantile(attacking_young_players$Aggression,0.66)
+cold_agg <- attacking_young_players$Aggression[attacking_young_players$Aggression<agg.33]
+describe(cold_agg)
+mid_agg <- attacking_young_players$Aggression[attacking_young_players$Aggression>agg.33-1&attacking_young_players$Aggression<agg.66+1]
+describe(mid_agg)
+fire_agg <- attacking_young_players$Aggression[attacking_young_players$Aggression>agg.66]
+describe(fire_agg)
+
+boxplot.stats(attacking_young_players$Passing)$stats
+quantile(attacking_young_players$Passing,seq(0,0.1,by=0.025))
+min_pass <- quantile(attacking_young_players$Passing,0.025)
+min_pass
+attacking_young_players$Passing[attacking_young_players$Passing<min_pass]<-min_pass
+
+pass.33 <- quantile(attacking_young_players$Passing,0.33)
+pass.66 <- quantile(attacking_young_players$Passing,0.66)
+bad_pass <- attacking_young_players$Passing[attacking_young_players$Passing<pass.33]
+describe(bad_pass)
+good_pass <- attacking_young_players$Passing[attacking_young_players$Passing>pass.33&attacking_young_players$Passing<pass.66]
+describe(good_pass)
+greate_pass <- attacking_young_players$Passing[attacking_young_players$Passing>pass.66]
+describe(greate_pass)
