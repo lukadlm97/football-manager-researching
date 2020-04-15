@@ -541,6 +541,7 @@ sort_players$Goals[25]<-7
 sort_players$Assists[25]<-7
 sort_players$League[25]<-league_coef[5,2]
 
+head(sort_players)
 
 sp <- sort_players[1:10,]
 
@@ -669,10 +670,10 @@ head(eval_matrix)
 c <- eval_matrix
 names(eval_matrix) <- names(full_players[,-c(1,15)])
 
+split_vars$SumCorel <- rowSums(split_vars) 
+
 split_vars <- eval_matrix[,c(1:9)]
 split_vars
-
-split_vars$SumCorel <- rowSums(split_vars) 
 split_vars
 
 which.max(split_vars$SumCorel)
@@ -692,7 +693,7 @@ sms_coef
 
 tmp <- norm(full_players$ValueAtTransferMarket)
 tmp
-
+library(corrplot)
 full_players$TMG <- tmp+sms_coef
 cor.matri <- cor(full_players[,-c(1,15)])
 cor.matri
@@ -711,6 +712,10 @@ junior_players <- quantile(attacking_young_players$Age,0.33)
 summary(junior_players)
 boxplot(junior_players)
 
+shapiro.test(young_senior_players$Age)
+
+
+#Crossing classification
 boxplot(attacking_young_players$Crossing)
 
 boxplot.stats(attacking_young_players$Crossing)$stats
@@ -726,6 +731,10 @@ describe(medium_corssing)
 strong_crossing <- attacking_young_players$Crossing[attacking_young_players$Crossing>crossing.66]
 describe(strong_crossing)
 
+shapiro.test(strong_crossing)
+
+
+#Acceleration classification
 boxplot(attacking_young_players$Acceleration)
 boxplot.stats(attacking_young_players$Acceleration)$stats
 boxplot.stats(attacking_young_players$Acceleration)$out
@@ -737,11 +746,9 @@ min_acc <- quantile(attacking_young_players$Acceleration,0.025)
 min_acc
 attacking_young_players$Acceleration[attacking_young_players$Acceleration<min_acc]<-min_acc
 attacking_young_players$Acceleration
-
 acc.33 <- quantile(attacking_young_players$Acceleration,0.33)
 slow_players<- attacking_young_players$Acceleration[attacking_young_players$Acceleration<acc.33]
 describe(slow_players)
-
 acc.66 <- quantile(attacking_young_players$Acceleration,0.66)
 acc.66
 acc.33
@@ -755,7 +762,9 @@ shapiro.test(slow_players)
 nrow(slow_players)
 slow_players
 
+shapiro.test(mid_players)
 
+#Dribling classification
 boxplot(attacking_young_players$Dribbling)
 drib.33 <- quantile(attacking_young_players$Dribbling,0.33)
 drib.33
@@ -768,11 +777,12 @@ describe(good_drib)
 greate_drib <- attacking_young_players$Dribbling[attacking_young_players$Dribbling>drib.66]
 describe(greate_drib)
 
-
+shapiro.test(greate_drib)
 
 boxplot(attacking_young_players$Passing)
 boxplot(attacking_young_players$Aggression)
 
+#Aggression classification
 boxplot.stats(attacking_young_players$Aggression)$stats
 quantile(attacking_young_players$Aggression,seq(0.9,1,0.025))
 max_agg <- quantile(attacking_young_players$Aggression,0.925)
@@ -781,8 +791,6 @@ quantile(attacking_young_players$Aggression,seq(0,0.1,0.025))
 min_agg <- quantile(attacking_young_players$Aggression,0.1)
 min_agg
 attacking_young_players$Aggression[attacking_young_players$Aggression<min_agg]<-min_agg
-
-
 agg.33 <- quantile(attacking_young_players$Aggression,0.33)
 agg.66 <- quantile(attacking_young_players$Aggression,0.66)
 cold_agg <- attacking_young_players$Aggression[attacking_young_players$Aggression<agg.33]
@@ -791,13 +799,15 @@ mid_agg <- attacking_young_players$Aggression[attacking_young_players$Aggression
 describe(mid_agg)
 fire_agg <- attacking_young_players$Aggression[attacking_young_players$Aggression>agg.66]
 describe(fire_agg)
+shapiro.test(fire_agg)
 
+
+#Passing classification
 boxplot.stats(attacking_young_players$Passing)$stats
 quantile(attacking_young_players$Passing,seq(0,0.1,by=0.025))
 min_pass <- quantile(attacking_young_players$Passing,0.025)
 min_pass
 attacking_young_players$Passing[attacking_young_players$Passing<min_pass]<-min_pass
-
 pass.33 <- quantile(attacking_young_players$Passing,0.33)
 pass.66 <- quantile(attacking_young_players$Passing,0.66)
 bad_pass <- attacking_young_players$Passing[attacking_young_players$Passing<pass.33]
@@ -806,3 +816,90 @@ good_pass <- attacking_young_players$Passing[attacking_young_players$Passing>pas
 describe(good_pass)
 greate_pass <- attacking_young_players$Passing[attacking_young_players$Passing>pass.66]
 describe(greate_pass)
+shapiro.test(greate_pass)
+
+head(sort_players,30)
+
+
+write.csv(aym,file="attacking_young_players.csv",sep="\t",row.names=FALSE)
+
+sort_players[18,]
+#Siladji
+sort_players$Games[18]<-25
+sort_players$Goals[18]<-13
+sort_players$Assists[18]<-1
+sort_players$League[18]<-league_coef[4,2]
+
+sort_players[26,]
+#Djordjevic
+sort_players$Games[26]<-20
+sort_players$Goals[26]<-6
+sort_players$Assists[26]<-6
+sort_players$League[26]<-league_coef[1,2]
+
+sort_players[27,]
+#Masovic
+sort_players$Games[27]<-20
+sort_players$Goals[27]<-5
+sort_players$Assists[27]<-4
+sort_players$League[27]<-league_coef[5,2]
+
+sort_players[28,]
+#Pantovic
+sort_players$Games[28]<-13
+sort_players$Goals[28]<-0
+sort_players$Assists[28]<-2
+sort_players$League[28]<-league_coef[6,2]
+
+sort_players[29,]
+#Gojkov
+sort_players$Games[29]<-15
+sort_players$Goals[29]<-1
+sort_players$Assists[29]<-1
+sort_players$League[29]<-league_coef[4,2]
+
+sort_players[30,]
+#Markovic
+sort_players$Games[30]<-31
+sort_players$Goals[30]<-10
+sort_players$Assists[30]<-1
+sort_players$League[30]<-league_coef[4,2]
+
+write.csv(sort_players[1:30,],file="top_30_complete.csv",sep="\t",row.names=FALSE)
+
+df <- read.csv("top_30_complete.csv")
+df
+
+
+df$ValueNorm <- norm(df$ValueAtTransferMarket)
+summary(df$ValueNorm)
+boxplot(df$ValueAtTransferMarket)
+
+
+#outliers TMV
+boxplot(df$ValueAtTransferMarket)
+boxplot.stats(df$ValueAtTransferMarket)$stats
+quantile(df$ValueAtTransferMarket,seq(0.7,1,0.025))
+max_price <- quantile(df$ValueAtTransferMarket,0.725)
+max_price
+df$ValueAtTransferMarket[df$ValueAtTransferMarket>max_price]<-max_price
+
+#optimization
+eval_matrix <- data.frame()
+
+df[,c(1,15)]
+
+for(k in 1:4913){
+  performance_coefs <- df$Games*coefs$games_c[k]+df$Assists*coefs$assist_c[k]+df$Goals*coefs$goal_c[k]
+  performance_coefs <- norm(performance_coefs)
+  df$TMG <- df$ValueNorm+performance_coefs
+  cor.matri <- cor(df[,-c(1,15)])
+  eval_matrix <- rbind(eval_matrix,cor.matri[14,1:14])
+}
+nrow(eval_matrix)
+
+names(eval_matrix) <- names(df[,-c(1,15,16)])
+eval_matrix[1,]
+eval_matrix$SumCorel <- rowSums(eval_matrix) 
+
+which.max(eval_matrix$SumCorel)

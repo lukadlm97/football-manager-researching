@@ -1,0 +1,76 @@
+[System]
+Name='predict_TPM_index'
+Type='mamdani'
+Version=2.0
+NumInputs=6
+NumOutputs=1
+NumRules=6
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='godine'
+Range=[15 23]
+NumMFs=3
+MF1='mladi':'gaussmf',[0.56 16.25]
+MF2='juniori':'gaussmf',[0.82 19.04]
+MF3='mladji_seniori':'gaussmf',[0.82 21.91]
+
+[Input2]
+Name='utrcavanje'
+Range=[0 16]
+NumMFs=3
+MF1='spor':'gaussmf',[1.41 4.41]
+MF2='srednji':'gaussmf',[0.84 9.12]
+MF3='jak':'gaussmf',[0.9 12.59]
+
+[Input3]
+Name='ubrzavanje'
+Range=[8 15]
+NumMFs=3
+MF1='spor':'gaussmf',[0.98 10.2]
+MF2='prosecan':'gaussmf',[0.5 12.51]
+MF3='brz':'gaussmf',[0.41 14.2]
+
+[Input4]
+Name='dribling'
+Range=[2 16]
+NumMFs=3
+MF1='los':'gaussmf',[1.75 6.16]
+MF2='prosecan':'gaussmf',[0.78 10.23]
+MF3='sjajan':'gaussmf',[0.88 12.76]
+
+[Input5]
+Name='agresivnost'
+Range=[6 12]
+NumMFs=3
+MF1='hladan':'gaussmf',[0.48 6.36]
+MF2='osrednji':'gaussmf',[0.7 8.96]
+MF3='vatreni':'gaussmf',[0.45 11.72]
+
+[Input6]
+Name='dodavanje'
+Range=[3 15]
+NumMFs=3
+MF1='los':'gaussmf',[1.49 5.25]
+MF2='dobar':'gaussmf',[0.47 9.68]
+MF3='brilijantan':'gaussmf',[0.83 12.74]
+
+[Output1]
+Name='TMPindeks'
+Range=[0 2]
+NumMFs=3
+MF1='slab':'trimf',[0.06403 0.3949 0.87513]
+MF2='prosecan':'trimf',[0.3571 0.8477 1.275]
+MF3='visok':'trimf',[1.011 1.401 2]
+
+[Rules]
+3 0 0 3 0 3, 3 (1) : 1
+1 3 3 0 3 0, 3 (1) : 1
+3 0 3 3 0 3, 2 (1) : 1
+1 0 3 3 1 0, 2 (1) : 1
+3 0 1 1 3 0, 1 (1) : 1
+1 1 0 1 0 2, 1 (1) : 1
