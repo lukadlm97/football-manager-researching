@@ -903,3 +903,76 @@ eval_matrix[1,]
 eval_matrix$SumCorel <- rowSums(eval_matrix) 
 
 which.max(eval_matrix$SumCorel)
+coefs$games_c[17]
+performance_co <- df$Games*coefs$games_c[17]+df$Assists*coefs$assist_c[17]+df$Goals*coefs$goal_c[17]
+performance_co
+performance_co <- norm(performance_co)
+sms_coef
+boxplot(performance_co)
+boxplot.stats(performance_co)$stats
+quantile(performance_co,seq(0.9,1,0.025))
+max_perf <- quantile(performance_co,0.95)
+performance_co[performance_co>max_perf]<-max_perf
+str(df)
+df$Performance <- performance_co
+df$Performance<- norm(performance_co)
+df$TMG <- df$ValueNorm+df$Performance
+str(df)
+
+boxplot(df$TMG)
+summary(df$TMG)
+shapiro.test(df$TMG)
+library(ggplot2)
+
+best_class <- df[1:10,]
+shapiro.test(best_class$TMG)
+plot(best_class$Dribbling,best_class$TMG)
+summary(best_class$TMG)
+
+medium_class <- df[11:20,]
+shapiro.test(medium_class$TMG)
+summary(medium_class$TMG)
+
+low_class <- df[21:30,]
+shapiro.test(low_class$TMG)
+summary(low_class$Performance)
+
+df$fis1 <- NA
+
+df[1,]
+df$fis1[1]<-1.48
+
+df[2,]
+df$fis1[2]<-1.18
+  
+df[3,]
+df$fis1[3]<-1.18
+
+df$fis1[4]<-1.17
+
+df[5,]
+df$fis1[5]<-1.17
+
+df[6,]
+df$fis1[6]<-1.37
+
+df[7,]
+df$fis1[7]<-1.46
+
+df[8,]
+df$fis1[8]<-1.49
+
+df[9,]
+df$fis1[9]<-1.48
+
+df[10,]
+df$fis1[10]<-1.18
+
+df[1:10,c(1,2,19)]
+df$fis1
+ncol(df)
+
+df[11,]
+df$fis1[11]<-1.5
+
+d
