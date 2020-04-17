@@ -940,39 +940,119 @@ summary(low_class$Performance)
 df$fis1 <- NA
 
 df[1,]
-df$fis1[1]<-1.48
+df$fis1[1]<-0.4
 
 df[2,]
-df$fis1[2]<-1.18
+df$fis1[2]<-1.5
   
 df[3,]
-df$fis1[3]<-1.18
+df$fis1[3]<-1.5
 
-df$fis1[4]<-1.17
+df[4,]
+df$fis1[4]<-1.5
 
 df[5,]
-df$fis1[5]<-1.17
+df$fis1[5]<-1.5
 
 df[6,]
-df$fis1[6]<-1.37
+df$fis1[6]<-0.47
 
 df[7,]
-df$fis1[7]<-1.46
+df$fis1[7]<-1.5
 
 df[8,]
-df$fis1[8]<-1.49
+df$fis1[8]<-0.47
 
 df[9,]
-df$fis1[9]<-1.48
+df$fis1[9]<-0.486
 
 df[10,]
-df$fis1[10]<-1.18
+df$fis1[10]<-1.49
 
-df[1:10,c(1,2,19)]
+temp_30<- df[1:30,c(1,2,19)]
+temp_30
 df$fis1
 ncol(df)
 
 df[11,]
-df$fis1[11]<-1.5
+df$fis1[11]<-1.04
 
-d
+df[12,]
+df$fis1[12]<-0.84
+df[13,]
+df$fis1[13]<-0.47
+df[14,]
+df$fis1[14]<-0.76
+df[15,]
+df$fis1[15]<-0.84
+df[16,]
+df$fis1[16]<-0.81
+df[17,]
+df$fis1[17]<-0.81
+df[18,]
+df$fis1[18]<- 1.04
+df[19,]
+df$fis1[19]<- 0.47
+df[20,]  
+df$fis1[20]<- 0.47
+top_15 <- df[1:15,]
+
+df[21,]
+df$fis1[21]<-1.5
+df[22,]
+df$fis1[22] <- 1.5
+df[23,]
+df$fis1[23] <- 1.5
+df[24,]
+df$fis1[24] <- 0.47
+df[25,]
+df$fis1[25] <- 1.5
+
+df[26,]
+df$fis1[26] <- 1.04
+df[27,]
+df$fis1[27] <- 0.81
+df[28,]
+df$fis1[28] <- 1.04
+df[29,]
+df$fis1[29]<-0.47
+df[30,]
+df$fis1[30] <- 0.47
+
+summary(df$fis1)
+temp_30$NormalCategory <- NA
+temp_30$NormalCategory[1:10] <- 'A'
+temp_30$NormalCategory[11:20] <- 'B'
+temp_30$NormalCategory[21:30] <- 'c'
+
+
+
+
+quantile(temp_30$fis1,0.33)
+quantile(temp_30$fis1,0.66)
+temp_30$fis1_category <- NA
+temp_30$fis1_category[temp_30$fis1<0.81]<-'C'
+temp_30$fis1_category[temp_30$fis1>=0.81&temp_30$fis1<1.222]<-'B'
+temp_30$fis1_category[temp_30$fis1>1.222]<-'A'
+summary(temp_30)
+temp_30$NormalCategory<- as.factor(temp_30$NormalCategory)
+temp_30$fis1_category <- as.factor(temp_30$fis1_category)
+temp_30
+
+conf.matrix <- table(true=temp_30$NormalCategory,predicted=temp_30$fis1_category)
+conf.matrix
+
+library(ggplot2)
+ggplot(df,aes(x=1:30,y=df$Age))+geom_line()
+
+write.csv(df,file="top_30_first_fis.csv",sep="\t",row.names=FALSE)
+
+ggplot(df,aes(x=1:30,y=df$Age))+geom_line()
+ggplot(df,aes(x=1:30,y=df$Crossing))+geom_line()
+ggplot(df,aes(x=1:30,y=df$Acceleration))+geom_line()
+ggplot(df,aes(x=1:30,y=df$Aggression))+geom_line()
+ggplot(df,aes(x=1:30,y=df$Passing))+geom_line()
+ggplot(df,aes(x=1:30,y=df$Dribbling))+geom_line()
+
+
+write.csv(temp_30,file="eval_fis1.csv",sep="\t",row.names = FALSE)
