@@ -220,3 +220,6 @@ top_30_first_fis[,c(1,2,19,20,21,22,23)]
 
 secound_cm <- table(true=top_30_first_fis[,21],predicted=top_30_first_fis[,23])
 secound_cm
+
+first_cm <- table(true=top_30_first_fis[,21],predicted=top_30_first_fis[,22])
+first_cm
