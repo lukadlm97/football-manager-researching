@@ -227,3 +227,110 @@ first_cm
 top_30_first_fis
 
 write.csv(top_30_first_fis,file="eval_fis2.csv",sep="\t",row.names = FALSE)
+
+top_30_first_fis[24,]
+
+
+df$fis3 <- NA
+
+df[1,]
+df$fis3[1]<-1.48
+
+df[2,]
+df$fis3[2]<-1.5
+
+df[3,]
+df$fis3[3]<-1.5
+
+df[4,]
+df$fis3[4]<-1.49
+
+df[5,]
+df$fis3[5]<-1.5
+
+df[6,]
+df$fis3[6]<-1.5
+
+df[7,]
+df$fis3[7]<-1.48
+
+df[8,]
+df$fis3[8]<-0.838
+
+df[9,]
+df$fis3[9]<-1.5
+
+df[10,]
+df$fis3[10]<-1.46
+
+
+
+df[11,]
+df$fis3[11]<-0.47
+
+df[12,]
+df$fis3[12]<-0.767
+df[13,]
+df$fis3[13]<-0.847
+df[14,]
+df$fis3[14]<-0.844
+df[15,]
+df$fis3[15]<-0.515
+df[16,]
+df$fis3[16]<-0.818
+df[17,]
+df$fis3[17]<-0.67
+df[18,]
+df$fis3[18]<- 0.466
+df[19,]
+df$fis3[19]<- 1.04
+df[20,]  
+df$fis3[20]<- 0.67
+top_20 <- df[1:20,]
+top_20
+
+df[21,]
+df$fis3[21]<-1.5
+df[22,]
+df$fis3[22] <- 1.49
+df[23,]
+df$fis3[23] <- 1.48
+df[24,]
+df$fis3[24] <- 0.796
+df[25,]
+df$fis3[25] <- 1.48
+
+df[26,]
+df$fis3[26] <- 0.467
+df[27,]
+df$fis3[27] <- 0.467
+df[28,]
+df$fis3[28] <- 0.933
+df[29,]
+df$fis3[29]<-0.843
+df[30,]
+df$fis3[30] <- 1.48
+
+
+df
+top_30_first_fis$fis3 <- df$fis3
+
+fis3_33 <- quantile(df$fis3,0.33)
+fis3_66<-quantile(df$fis3,0.66)
+fis3_33
+fis3_66
+
+top_30_first_fis$Third <- NA
+top_30_first_fis$Third[top_30_first_fis$fis3<=fis3_33]<-'C'
+top_30_first_fis$Third[top_30_first_fis$fis3>=fis3_33&top_30_first_fis$fis3<=fis3_66]<-'B'
+top_30_first_fis$Third[top_30_first_fis$fis3>=fis3_66]<-'A'
+top_30_first_fis$Third <- as.factor(top_30_first_fis$Third)
+
+top_30_first_fis[,c(1,2,21,24,25)]
+str(top_30_first_fis)
+
+third.cm <- table(true=top_30_first_fis$NormCategory,predicted=top_30_first_fis$Third)
+third.cm
+
+write.csv(top_30_first_fis[,c(1,2,19,20,21,22,23,24)],file="final_eval_fis3.csv",sep="\t",row.names = FALSE)
+
