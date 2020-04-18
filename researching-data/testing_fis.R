@@ -223,3 +223,7 @@ secound_cm
 
 first_cm <- table(true=top_30_first_fis[,21],predicted=top_30_first_fis[,22])
 first_cm
+
+top_30_first_fis
+
+write.csv(top_30_first_fis,file="eval_fis2.csv",sep="\t",row.names = FALSE)
