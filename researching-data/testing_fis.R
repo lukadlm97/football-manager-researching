@@ -334,3 +334,10 @@ third.cm
 
 write.csv(top_30_first_fis[,c(1,2,19,20,21,22,23,24)],file="final_eval_fis3.csv",sep="\t",row.names = FALSE)
 
+
+top_30<- read.csv("final_eval_fis3.csv")
+
+summary(top_30)
+
+top_30[,c(1,2,5,8)]
+table(true=top_30$NormCategory,predicted=top_30$Third)
